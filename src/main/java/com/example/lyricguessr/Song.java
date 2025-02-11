@@ -10,10 +10,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Song {
-String lyrics;
 
 ArrayList<Song> allSongs = new ArrayList<Song>();
     @JsonProperty("song")
@@ -33,6 +33,8 @@ ArrayList<Song> allSongs = new ArrayList<Song>();
 
     @JsonProperty("weeks_on_chart")
     Integer weeksOnChart;
+
+    public Lyric lyrics;
 
     public String getSongName() {
         return songName;
@@ -58,6 +60,14 @@ ArrayList<Song> allSongs = new ArrayList<Song>();
         return weeksOnChart;
     }
 
+    public Lyric getLyrics() {
+        return lyrics;
+    }
+
+    public void setLyrics(Lyric lyrics) {
+        this.lyrics = lyrics;
+    }
+
     public void setSongName(String songName) {
         this.songName = songName;
     }
@@ -81,6 +91,8 @@ ArrayList<Song> allSongs = new ArrayList<Song>();
     public void setWeeksOnChart(Integer weeksOnChart) {
         this.weeksOnChart = weeksOnChart;
     }
+
+
 
     String getJSONfromURL(String urlString) throws Exception {
         URL url = new URL(urlString);
@@ -122,7 +134,28 @@ ArrayList<Song> allSongs = new ArrayList<Song>();
         }
     }
 
-    public void getLyrics(Song song){
-        String JSONLyrics = getJSONfromURL("https://private-anon-2c323ffa75-lyricsovh.apiary-proxy.com/v1/"+song.getArtist()+"/"+song.getSongName());
+    public Lyric getLyricsFromSong(Song song)throws Exception{
+        String artistFormat = song.getArtist().replace(" ","%20");
+        String songFormat = song.getSongName().replace(" ", "%20");
+        String JSONLyrics = getJSONfromURL("https://private-anon-2c323ffa75-lyricsovh.apiary-proxy.com/v1/"+artistFormat+"/"+songFormat);
+        System.out.println("JSON Lyrics: "+ JSONLyrics);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Lyric lyrics = objectMapper.readValue(JSONLyrics, Lyric.class);
+        System.out.println("real lyrics: "+lyrics);
+
+        song.setLyrics(lyrics);
+
+        return lyrics;
     }
+
+    public void randomLyrics() throws Exception{
+        Random random = new Random();
+        int songNum = random.nextInt(99);
+
+        Lyric lyrics = getLyricsFromSong(allSongs.get(songNum));
+        String lyricText = lyrics.getLyrics();
+    }
+
+
 }
