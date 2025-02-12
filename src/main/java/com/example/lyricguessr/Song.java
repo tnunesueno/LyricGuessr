@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class Song {
 
-ArrayList<Song> allSongs = new ArrayList<Song>();
+static ArrayList<Song> allSongs = new ArrayList<Song>();
     @JsonProperty("song")
     String songName;
 
@@ -149,13 +149,11 @@ ArrayList<Song> allSongs = new ArrayList<Song>();
         return lyrics;
     }
 
-    public void randomLyrics() throws Exception{
+    public String randomLyrics() throws Exception{
         Random random = new Random();
         int songNum = random.nextInt(99);
 
         Lyric lyrics = getLyricsFromSong(allSongs.get(songNum));
-        String lyricText = lyrics.getLyrics();
+        return lyrics.getLyrics();
     }
-
-
 }
