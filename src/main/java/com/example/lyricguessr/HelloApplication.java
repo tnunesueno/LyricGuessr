@@ -17,7 +17,13 @@ public class HelloApplication extends Application {
         stage.show();
         Song.getTop100();
     }
+
+
     public static void main(String[] args) {
         launch();
     }
+
+    public void stop() throws Exception {
+    }
+
 }
