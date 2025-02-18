@@ -15,6 +15,7 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+        Song.getTop100();
     }
     public static void main(String[] args) {
         launch();
