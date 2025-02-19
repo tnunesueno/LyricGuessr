@@ -164,18 +164,25 @@ public class Song {
         System.out.println("real lyrics: " + lyrics);
         String lyricWords = lyrics.getLyrics();
 
+        lyrics.fillArray();
         song.setLyrics(lyricWords);
         return lyrics;
     }
 
-    public String randomLyrics() throws Exception {
+    static public Lyric randomLyrics() throws Exception {
         Random random = new Random();
         int songNum = random.nextInt(99);
 
         Lyric lyrics = getLyricsFromSong(allSongs.get(songNum));
         if (lyrics == null) {
-            Lyric lyrics2 = getLyricsFromSong(allSongs.get(songNum+1));
+            if(songNum<99){
+                songNum = songNum + 1;
+                lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
+            }else {
+                songNum = songNum - 1;
+                lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
+            }
         }
-        return lyrics.getLyrics();
+        return lyrics;
     }
 }

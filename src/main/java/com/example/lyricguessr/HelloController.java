@@ -1,8 +1,11 @@
 package com.example.lyricguessr;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 import java.io.Serial;
 import java.util.Random;
@@ -17,7 +20,7 @@ public class HelloController {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 
-    public void DisplayWords() throws Exception {
+    public static void DisplayWords() throws Exception {
         Random random = new Random();
         int songNum = random.nextInt(99);
 
@@ -32,5 +35,14 @@ public class HelloController {
             }
         }
         System.out.println(lyrics.getLyrics());
+    }
+
+    public void play() throws Exception{
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("playview.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 500);
+        Stage playStage = (Stage)button.getScene().getWindow();
+        playStage.setTitle("Hello!");
+        playStage.setScene(scene);
+        playStage.show();
     }
 }
