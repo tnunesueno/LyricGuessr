@@ -93,12 +93,14 @@ public class Song {
         this.lyrics = lyrics;
     }
 
-    static String getJSONfromURL(String urlString) throws Exception {
+    static String getJSONfromURL(String urlString, boolean configureConnection) throws Exception {
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Accept", "application/json");
+            if (configureConnection) {
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Accept", "application/json");
+            }
             InputStreamReader inStream = new InputStreamReader(connection.getInputStream());
             BufferedReader reader = new BufferedReader(inStream);
             StringBuilder response = new StringBuilder();
@@ -114,7 +116,7 @@ public class Song {
     }
 
     static public void getTop100() throws Exception {
-        String JSONSongs = getJSONfromURL("https://raw.githubusercontent.com/mhollingshead/billboard-hot-100/main/recent.json");
+        String JSONSongs = getJSONfromURL("https://raw.githubusercontent.com/mhollingshead/billboard-hot-100/main/recent.json", false);
         // System.out.println(JSONSongs);
 
         // Read JSON objects using JsonNode after readTree()
@@ -153,7 +155,7 @@ public class Song {
         }
 
         String songFormat = song.getSongName().replace(" ", "%20");
-        String JSONLyrics = getJSONfromURL("https://private-anon-2c323ffa75-lyricsovh.apiary-proxy.com/v1/" + artistFormat + "/" + songFormat);
+        String JSONLyrics = getJSONfromURL("https://private-anon-2c323ffa75-lyricsovh.apiary-proxy.com/v1/" + artistFormat + "/" + songFormat, true);
         if (JSONLyrics == null) {
             return null;
         }
@@ -161,10 +163,10 @@ public class Song {
 
         ObjectMapper objectMapper = new ObjectMapper();
         Lyric lyrics = objectMapper.readValue(JSONLyrics, Lyric.class);
-        System.out.println("real lyrics: " + lyrics);
+        System.out.println("song: " + song.getSongName()+ " real lyrics: " + lyrics);
         String lyricWords = lyrics.getLyrics();
 
-        lyrics.fillArray();
+      //  lyrics.fillArray();
         song.setLyrics(lyricWords);
         return lyrics;
     }
@@ -183,6 +185,7 @@ public class Song {
                 lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
             }
         }
+       // System.out.println(lyrics.getLyrics());
         return lyrics;
     }
 }

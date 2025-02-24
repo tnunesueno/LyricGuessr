@@ -12,10 +12,10 @@ private Text lyricText;
  private TextField input;
 
  public void initialize() throws Exception {
-     HelloController.DisplayWords();
      Lyric selectedLyrics = Song.randomLyrics();
-     selectedLyrics.fillArray();
+    selectedLyrics.fillArray();
 
-    //lyricText.setText(selectedLyrics.lyricArray.get(5));
+     String displayLyric = selectedLyrics.getLyricArray().get(10);
+     lyricText.setText(displayLyric);
  }
 }

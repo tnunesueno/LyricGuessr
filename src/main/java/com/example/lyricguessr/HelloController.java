@@ -39,7 +39,7 @@ public class HelloController {
 
     public void play() throws Exception{
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("playview.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 300, 500);
         Stage playStage = (Stage)button.getScene().getWindow();
         playStage.setTitle("Hello!");
         playStage.setScene(scene);
