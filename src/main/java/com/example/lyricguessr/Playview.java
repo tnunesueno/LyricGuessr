@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
+import java.util.Random;
+
 public class Playview {
  @FXML
 private Text lyricText;
@@ -13,9 +15,12 @@ private Text lyricText;
 
  public void initialize() throws Exception {
      Lyric selectedLyrics = Song.randomLyrics();
-    selectedLyrics.fillArray();
+     System.out.println("Size from play initialize: " +selectedLyrics.lyricArray.size());
 
-     String displayLyric = selectedLyrics.getLyricArray().get(10);
-     lyricText.setText(displayLyric);
+     Random random = new Random();
+     int lyricNUm = random.nextInt(3,selectedLyrics.lyricArray.size()-2);
+
+     lyricText.setText(selectedLyrics.lyricArray.get(lyricNUm));
+
+     }
  }
-}

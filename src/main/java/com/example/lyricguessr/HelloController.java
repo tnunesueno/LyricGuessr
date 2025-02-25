@@ -21,6 +21,7 @@ public class HelloController {
     }
 
     public static void DisplayWords() throws Exception {
+        Song.getTop100();
         Random random = new Random();
         int songNum = random.nextInt(99);
 
@@ -38,6 +39,7 @@ public class HelloController {
     }
 
     public void play() throws Exception{
+        System.out.println("play called");
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("playview.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 500);
         Stage playStage = (Stage)button.getScene().getWindow();

@@ -37,6 +37,8 @@ public class Song {
     @JsonProperty("weeks_on_chart")
     Integer weeksOnChart;
 
+   // public Lyric lyrics;
+
     public String getSongName() {
         return songName;
     }
@@ -166,7 +168,6 @@ public class Song {
         System.out.println("song: " + song.getSongName()+ " real lyrics: " + lyrics);
         String lyricWords = lyrics.getLyrics();
 
-      //  lyrics.fillArray();
         song.setLyrics(lyricWords);
         return lyrics;
     }
@@ -177,7 +178,7 @@ public class Song {
 
         Lyric lyrics = getLyricsFromSong(allSongs.get(songNum));
         if (lyrics == null) {
-            if(songNum<99){
+            if(songNum<98){
                 songNum = songNum + 1;
                 lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
             }else {
@@ -185,7 +186,8 @@ public class Song {
                 lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
             }
         }
-       // System.out.println(lyrics.getLyrics());
+        System.out.println("SIZE FROM RANDOM LYRICS: "+lyrics.getLyricArray().size());
+        lyrics.fillArray();
         return lyrics;
     }
 }

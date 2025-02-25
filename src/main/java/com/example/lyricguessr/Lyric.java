@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Lyric {
     @JsonProperty("lyrics")
@@ -26,7 +27,7 @@ public class Lyric {
 
     public ArrayList<String> convertUsingAsList(String[] arr) {
         ArrayList<String> al = new ArrayList<>(Arrays.asList(arr));
-        //System.out.println(al);
+        System.out.println(al);
         return al;
     }
 
@@ -34,12 +35,15 @@ public class Lyric {
         System.out.println("Fill array called");
         String bigLyrics = this.getLyrics();
 
-        String[] results = bigLyrics.split("\n");
-        System.out.println("array Number of lines: "+results.length);
-        System.out.println("array First line: "+results[0]);
+        String[] splitLines = bigLyrics.split("\\r?\\n");
 
-        ArrayList<String> resultsList = convertUsingAsList(results);
-        System.out.println("Number of lines: " +resultsList.size());
-        System.out.println("First line: " +resultsList.getFirst());
+        ArrayList<String> results = new ArrayList<>();
+        Collections.addAll(results, splitLines);
+
+        System.out.println("Number of lines: " + results.size());
+
+        System.out.println("Number of lines: " +results.size());
+        System.out.println("First line: " +results.getFirst());
+        this.setLyricArray(results);
     }
 }
