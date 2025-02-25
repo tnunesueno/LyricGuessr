@@ -58,10 +58,12 @@ if(firstLyric.equalsIgnoreCase(guess)){
     System.out.println(firstLyric);
     System.out.println(guess);
     System.out.println("guess is correct");
+    incorrect.setText("Correct!! YAAYYY!!");
 } else {
-    incorrect.setText("song name: "+ song.getSongName());
+    incorrect.setText("HINT: The song is called "+ song.getSongName() + " Try again!");
     System.out.println("guess is INCORRECT");
-
-}
+    input.requestFocus();
+    input.setText("");
+   }
  }
 }
