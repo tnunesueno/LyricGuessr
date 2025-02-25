@@ -11,6 +11,8 @@ public class Lyric {
     @JsonProperty("lyrics")
     String lyrics;
 
+    Song song;
+
     public ArrayList<String> lyricArray = new ArrayList<String>();
 
     public String getLyrics() { return lyrics; }
@@ -23,6 +25,14 @@ public class Lyric {
 
     public void setLyricArray(ArrayList<String> lyricArray) {
         this.lyricArray = lyricArray;
+    }
+
+    public Song getSong() {
+        return song;
+    }
+
+    public void setSong(Song song) {
+        this.song = song;
     }
 
     public ArrayList<String> convertUsingAsList(String[] arr) {
@@ -45,5 +55,6 @@ public class Lyric {
         System.out.println("Number of lines: " +results.size());
         System.out.println("First line: " +results.getFirst());
         this.setLyricArray(results);
+
     }
 }

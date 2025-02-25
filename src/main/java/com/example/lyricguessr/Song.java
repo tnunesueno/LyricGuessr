@@ -188,6 +188,7 @@ public class Song {
         }
         System.out.println("SIZE FROM RANDOM LYRICS: "+lyrics.getLyricArray().size());
         lyrics.fillArray();
+        lyrics.setSong(Song.allSongs.get(songNum));
         return lyrics;
     }
 }
