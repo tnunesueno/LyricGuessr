@@ -51,17 +51,30 @@ private Text lyricText;
 String firstLyric = Array.get(selectedLyricNum+1);
 // get rid of spaces
 firstLyric.replace(" ", "");
+firstLyric.replace("'", "");
+firstLyric.replace(",", "");
+firstLyric.replace(".", "");
+firstLyric.replace("-", "");
+firstLyric.replace("?","");
 String guess = input.getText();
-guess.replace(" ","");
 
+// for some reason this doesn't handle aposterphes
+guess.replace(" ","");
+guess.replace("'", "");
+guess.replace(",", "");
+guess.replace(".", "");
+guess.replace("-", "");
+guess.replace("?","");
 if(firstLyric.equalsIgnoreCase(guess)){
     System.out.println(firstLyric);
     System.out.println(guess);
-    System.out.println("guess is correct");
+    System.out.println("guess is CORRECT");
     incorrect.setText("Correct!! YAAYYY!!");
 } else {
-    incorrect.setText("HINT: The song is called "+ song.getSongName() + " Try again!");
+    incorrect.setText("HINT: The song is called "+ song.getSongName() + "\n"+ " Try again!");
     System.out.println("guess is INCORRECT");
+    System.out.println(firstLyric);
+    System.out.println(guess);
     input.requestFocus();
     input.setText("");
    }
