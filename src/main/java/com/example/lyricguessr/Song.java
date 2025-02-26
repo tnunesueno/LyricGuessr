@@ -174,11 +174,11 @@ public class Song {
 
     static public Lyric randomLyrics() throws Exception {
         Random random = new Random();
-        int songNum = random.nextInt(10);
+        int songNum = random.nextInt(24);
 
         Lyric lyrics = getLyricsFromSong(allSongs.get(songNum));
         if (lyrics == null) {
-            if(songNum<8){
+            if(songNum<22){
                 songNum = songNum + 1;
                 lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
             }else {

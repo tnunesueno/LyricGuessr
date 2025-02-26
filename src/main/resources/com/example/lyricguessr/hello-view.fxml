@@ -4,12 +4,25 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lyricguessr.HelloController">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="300.0" spacing="40.0" style="-fx-background-color: #0791ed;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lyricguessr.HelloController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <Label fx:id="welcomeText" text="Welcome!" />
-    <Button fx:id="button" onAction="#play" text="Play LyricGuessr" />
+    <Label fx:id="welcomeText" text="Welcome!">
+      <font>
+         <Font name="Wingdings 2" size="41.0" />
+      </font></Label>
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To play: you will be given a lyric from a top 100 song. Type in the lyric that comes next!" textAlignment="CENTER" wrappingWidth="250.0">
+      <font>
+         <Font name="Wingdings 2" size="12.0" />
+      </font>
+   </Text>
+    <Button fx:id="button" onAction="#play" text="Play LyricGuessr">
+      <font>
+         <Font size="20.0" />
+      </font></Button>
 </VBox>
