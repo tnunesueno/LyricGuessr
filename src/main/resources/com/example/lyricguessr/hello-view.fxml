@@ -12,17 +12,17 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <Label fx:id="welcomeText" text="Welcome!">
+    <Label fx:id="welcomeText" text="LyricGuessr">
       <font>
-         <Font name="Wingdings 2" size="41.0" />
+         <Font name="Bell MT Bold" size="43.0" />
       </font></Label>
-   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To play: you will be given a lyric from a top 100 song. Type in the lyric that comes next!" textAlignment="CENTER" wrappingWidth="250.0">
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="You will be given a lyric from a top 100 song. Type in the lyric that comes next!" textAlignment="CENTER" wrappingWidth="250.0">
       <font>
-         <Font name="Wingdings 2" size="12.0" />
+         <Font name="Bell MT" size="22.0" />
       </font>
    </Text>
-    <Button fx:id="button" onAction="#play" text="Play LyricGuessr">
+    <Button fx:id="button" onAction="#play" text="Play">
       <font>
-         <Font size="20.0" />
+         <Font name="Bell MT" size="20.0" />
       </font></Button>
 </VBox>
