@@ -5,15 +5,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
+import java.io.Serial;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Song {
     String lyrics;
@@ -37,7 +36,7 @@ public class Song {
     @JsonProperty("weeks_on_chart")
     Integer weeksOnChart;
 
-   // public Lyric lyrics;
+    // public Lyric lyrics;
 
     public String getSongName() {
         return songName;
@@ -144,17 +143,18 @@ public class Song {
     // https://private-anon-2c323ffa75-lyricsovh.apiary-proxy.com/v1/Coldplay/Adventure%20of%20a%20Lifetime
 
     static public Lyric getLyricsFromSong(Song song) throws Exception {
-        String artistFormat = song.getArtist().replace(" ", "%20");
+        String artistFormat = song.getArtist();
         int andSign = artistFormat.indexOf("&");
         if (andSign != -1) {
-            artistFormat = artistFormat.substring(andSign - 1);
+            artistFormat = artistFormat.substring(0,andSign-1);
             System.out.println("snipped name: " + artistFormat);
         }
         int featuring = artistFormat.indexOf("Featuring");
         if (featuring != -1) {
-            artistFormat = artistFormat.substring(featuring - 1);
+            artistFormat = artistFormat.substring(0,featuring-1);
             System.out.println("snipped name: " + artistFormat);
         }
+        artistFormat.replace(" ", "%20");
 
         String songFormat = song.getSongName().replace(" ", "%20");
         String JSONLyrics = getJSONfromURL("https://private-anon-2c323ffa75-lyricsovh.apiary-proxy.com/v1/" + artistFormat + "/" + songFormat, true);
@@ -165,7 +165,7 @@ public class Song {
 
         ObjectMapper objectMapper = new ObjectMapper();
         Lyric lyrics = objectMapper.readValue(JSONLyrics, Lyric.class);
-        System.out.println("song: " + song.getSongName()+ " real lyrics: " + lyrics);
+        System.out.println("song: " + song.getSongName() + " real lyrics: " + lyrics);
         String lyricWords = lyrics.getLyrics();
 
         song.setLyrics(lyricWords);
@@ -174,21 +174,48 @@ public class Song {
 
     static public Lyric randomLyrics() throws Exception {
         Random random = new Random();
-        int songNum = random.nextInt(24);
+        int songNum = random.nextInt(49);
 
         Lyric lyrics = getLyricsFromSong(allSongs.get(songNum));
         if (lyrics == null) {
-            if(songNum<22){
+            System.out.println("MY ERROR:" + allSongs.get(songNum).getSongName() + " Gave null");
+            if (songNum < 47) {
                 songNum = songNum + 1;
                 lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
-            }else {
+                if (lyrics == null) {
+                    System.out.println("MY ERROR 2:" + allSongs.get(songNum).getSongName() + " Gave null");
+                }
+            } else {
                 songNum = songNum - 1;
                 lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
+                if (lyrics == null) {
+                    System.out.println("MY ERROR 2:" + allSongs.get(songNum).getSongName() + " Gave null");
+                    songNum = random.nextInt(49);
+                    lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
+                }
+                if (lyrics == null) {
+                    System.out.println("MY ERROR 3:" + allSongs.get(songNum).getSongName() + " Gave null");
+                    songNum = random.nextInt(49);
+                    lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
+                }
+                if (lyrics == null) {
+                    System.out.println("MY ERROR 4:" + allSongs.get(songNum).getSongName() + " Gave null");
+                    songNum = random.nextInt(49);
+                    lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
+                }
+                if (lyrics == null) {
+                    System.out.println("MY ERROR 5:" + allSongs.get(songNum).getSongName() + " Gave null");
+                    songNum = random.nextInt(49);
+                    lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
+                }
             }
         }
-        System.out.println("SIZE FROM RANDOM LYRICS: "+lyrics.getLyricArray().size());
-        lyrics.fillArray();
-        lyrics.setSong(Song.allSongs.get(songNum));
-        return lyrics;
+            lyrics.fillArray();
+            System.out.println("SIZE FROM RANDOM LYRICS: " + lyrics.getLyricArray().size());
+            lyrics.setSong(Song.allSongs.get(songNum));
+            return lyrics;
+        }
     }
-}
+    // to do
+// latimer idea: allow people to choose genres and time periods
+

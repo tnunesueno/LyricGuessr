@@ -32,11 +32,15 @@ private Text streakText;
 
  Song song;
  int streak=0;
+ Lyric selectedLyric;
 
  @FXML
  private Button playAgain;
     @FXML
     private Button newSong;
+
+    @FXML
+    private Button giveUp;
 
  public void initialize() throws Exception {
      streakText.setText("Streak: "+ streak);
@@ -44,7 +48,13 @@ private Text streakText;
  }
 
  public void check(){
-String firstLyric = Array.get(selectedLyricNum+1);
+     String firstLyric;
+     if (selectedLyricNum!=Array.size()){
+      firstLyric= Array.get(selectedLyricNum+1);} else{
+        selectedLyricNum = selectedLyricNum - 3;
+         firstLyric=Array.get(selectedLyricNum+1);
+     }
+
 // get rid of spaces
      firstLyric=firstLyric.replace(" ", "");
      firstLyric = firstLyric.replace("'", "").replace("’", "");
@@ -53,37 +63,41 @@ String firstLyric = Array.get(selectedLyricNum+1);
      firstLyric=firstLyric.replace("-", "");
      firstLyric=firstLyric.replace("?","");
      firstLyric=firstLyric.replaceAll("\\(.*?\\)", "").trim();
+     firstLyric=firstLyric.replace("&", "and");
      firstLyric=firstLyric.toLowerCase();
 
 String guess = input.getText();
 
-     guess= guess.replace(" ","");
-     guess = guess.replace("'", "").replace("’", "");
-     guess=guess.replace(",", "");
-     guess=guess.replace(".", "");
-     guess=guess.replace("-", "");
-     guess=guess.replace("?","");
-     guess=guess.replaceAll("\\(.*?\\)", "").trim();
-     guess=guess.toLowerCase();
+if (guess!=null) {
 
-if(firstLyric.equalsIgnoreCase(guess)){
-    System.out.println(firstLyric);
-    System.out.println(guess);
-    System.out.println("guess is CORRECT");
-    incorrect.setText("Correct!! YAAYYY!!");
-    playAgain.setVisible(true);
-    streak = streak +1;
-    streakText.setText("Streak: "+ streak);
-} else {
-    incorrect.setText("HINT: The song is called "+ song.getSongName() + "\n"+ " Try again!");
-    System.out.println("guess is INCORRECT");
-    System.out.println(firstLyric);
-    System.out.println(guess);
-    input.requestFocus();
-    input.setText("");
-    streak=0;
-    streakText.setText("Streak: "+ streak);
-   }
+    guess = guess.replace(" ", "");
+    guess = guess.replace("'", "").replace("’", "");
+    guess = guess.replace(",", "");
+    guess = guess.replace(".", "");
+    guess = guess.replace("-", "");
+    guess = guess.replace("?", "");
+    guess = guess.replaceAll("\\(.*?\\)", "").trim();
+    guess = guess.toLowerCase();
+
+    if (firstLyric.equalsIgnoreCase(guess) || (guess.contains(firstLyric))) {
+        System.out.println(firstLyric);
+        System.out.println(guess);
+        System.out.println("guess is CORRECT");
+        incorrect.setText("Correct!! YAAYYY!!");
+        playAgain.setVisible(true);
+        streak = streak + 1;
+        streakText.setText("Streak: " + streak);
+    } else {
+        incorrect.setText("HINT: The song is called " + song.getSongName() + "\n" + " Try again!");
+        System.out.println("guess is INCORRECT");
+        System.out.println(firstLyric);
+        System.out.println(guess);
+        input.requestFocus();
+        input.setText("");
+        streak = 0;
+        streakText.setText("Streak: " + streak);
+    }
+}
  }
 
  public void playAgain() throws Exception {
@@ -98,22 +112,21 @@ if(firstLyric.equalsIgnoreCase(guess)){
      playAgain.setVisible(false);
      incorrect.setText("");
      // this isnt random, it does a new lyric from the same song sometimes
-     Lyric selectedLyrics = Song.randomLyrics();
-     song = selectedLyrics.getSong();
-     System.out.println("Size from play initialize: " +selectedLyrics.lyricArray.size());
+     selectedLyric = Song.randomLyrics();
+     song = selectedLyric.getSong();
+     System.out.println("Size from play initialize: " +selectedLyric.lyricArray.size());
 
      // adds all lyrics from song to this class's own array that can be used in other methods
      // this array needs to be cleared on start so it doesnt have a bunch of nonsense
-     for (int l = 0; l<selectedLyrics.getLyricArray().size(); l++) {
-         if (!selectedLyrics.getLyricArray().get(l).isEmpty()) {
-             Array.add(selectedLyrics.getLyricArray().get(l));
+     for (int l = 0; l<selectedLyric.getLyricArray().size(); l++) {
+         if (!selectedLyric.getLyricArray().get(l).isEmpty()) {
+             Array.add(selectedLyric.getLyricArray().get(l));
          }
      }
 
      Random random = new Random();
-     int lyricNUm = random.nextInt(0,Array.size());
-     lyricText.setText(Array.get(lyricNUm));
-     selectedLyricNum=lyricNUm;
+     selectedLyricNum = random.nextInt(0,Array.size()-5);
+     lyricText.setText(Array.get(selectedLyricNum));
  }
 // make this not make a new window
  public void back() throws IOException {
@@ -124,5 +137,13 @@ if(firstLyric.equalsIgnoreCase(guess)){
      playStage.setTitle("Hello!");
      playStage.setScene(scene);
      playStage.show();
+ }
+
+ public void giveUP(){
+     streak = 0;
+     streakText.setText("Streak: "+ streak);
+
+     incorrect.setText("Next lyric: "+ Array.get(selectedLyricNum+1)+"\n"+ "Song: "+ selectedLyric.getSong().getSongName() + "by" +selectedLyric.getSong().getArtist());
+     playAgain.setVisible(true);
  }
 }

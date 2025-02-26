@@ -12,7 +12,7 @@
    <children>
       <VBox alignment="CENTER" prefHeight="500.0" prefWidth="300.0" spacing="50.0" style="-fx-background-color: white;">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Complete the lyrics: ">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Complete the lyrics: " wrappingWidth="258.609375">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -22,9 +22,9 @@
             </Text>
             <Text fx:id="lyricText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="250.0">
                <font>
-                  <Font size="15.0" />
+                  <Font name="Wingdings 2" size="15.0" />
                </font></Text>
-            <TextField fx:id="input" onAction="#check" />
+            <TextField fx:id="input" onAction="#check" promptText="A wrong answer will give you a hint!" />
             <Text fx:id="incorrect" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="263.0" />
             <Button fx:id="playAgain" mnemonicParsing="false" onAction="#playAgain" text="Play again" />
          </children>
@@ -34,5 +34,6 @@
       </VBox>
       <Button fx:id="newSong" layoutX="272.0" layoutY="4.0" mnemonicParsing="false" onAction="#back" text="Back" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
       <Text fx:id="streakText" layoutX="14.0" layoutY="482.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Streak: " wrappingWidth="111.13671875" />
+      <Button fx:id="giveUp" layoutX="231.0" layoutY="465.0" mnemonicParsing="false" onAction="#giveUP" text="I give up!" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="232.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="473.0" />
    </children>
 </AnchorPane>
