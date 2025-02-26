@@ -32,18 +32,23 @@ private Text streakText;
 
  Song song;
  int streak=0;
+ int guessNum=0;
  Lyric selectedLyric;
+
+ @FXML
+public Text guesses;
 
  @FXML
  private Button playAgain;
     @FXML
-    private Button newSong;
+    private Button show;
 
     @FXML
     private Button giveUp;
 
  public void initialize() throws Exception {
      streakText.setText("Streak: "+ streak);
+     guesses.setText("Guesses: "+ guessNum);
      beginGame();
  }
 
@@ -64,6 +69,7 @@ private Text streakText;
      firstLyric=firstLyric.replace("?","");
      firstLyric=firstLyric.replaceAll("\\(.*?\\)", "").trim();
      firstLyric=firstLyric.replace("&", "and");
+     firstLyric=firstLyric.replace(" ","");
      firstLyric=firstLyric.toLowerCase();
 
 String guess = input.getText();
@@ -87,15 +93,18 @@ if (guess!=null) {
         playAgain.setVisible(true);
         streak = streak + 1;
         streakText.setText("Streak: " + streak);
+        guessNum=guessNum+1;
+        guesses.setText("Guesses: "+ guessNum);
     } else {
-        incorrect.setText("HINT: The song is called " + song.getSongName() + "\n" + " Try again!");
+        int space = Array.get(selectedLyricNum+1).indexOf(" ");
+        incorrect.setText("HINT: The first word is " + Array.get(selectedLyricNum+1).substring(0,space) + "\n" + " Try again!");
         System.out.println("guess is INCORRECT");
         System.out.println(firstLyric);
         System.out.println(guess);
         input.requestFocus();
         input.setText("");
-        streak = 0;
-        streakText.setText("Streak: " + streak);
+        guessNum=guessNum+1;
+        guesses.setText("Guesses: "+ guessNum);
     }
 }
  }
@@ -108,6 +117,8 @@ if (guess!=null) {
  }
 
  public void beginGame() throws Exception{
+     guessNum=0;
+     guesses.setText("Guesses: "+ guessNum);
      Array.clear();
      playAgain.setVisible(false);
      incorrect.setText("");
@@ -143,7 +154,11 @@ if (guess!=null) {
      streak = 0;
      streakText.setText("Streak: "+ streak);
 
-     incorrect.setText("Next lyric: "+ Array.get(selectedLyricNum+1)+"\n"+ "Song: "+ selectedLyric.getSong().getSongName() + "by" +selectedLyric.getSong().getArtist());
+     incorrect.setText("Next lyric: "+ Array.get(selectedLyricNum+1)+"\n"+ "Song: "+ selectedLyric.getSong().getSongName() + " by " +selectedLyric.getSong().getArtist());
      playAgain.setVisible(true);
+ }
+
+ public void showSong(){
+     lyricText.setText(lyricText.getText()+ "\n"+ "Song: "+selectedLyric.getSong().getSongName() + " by " +selectedLyric.getSong().getArtist());
  }
 }

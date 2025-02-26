@@ -146,12 +146,12 @@ public class Song {
         String artistFormat = song.getArtist();
         int andSign = artistFormat.indexOf("&");
         if (andSign != -1) {
-            artistFormat = artistFormat.substring(0,andSign-1);
+            artistFormat = artistFormat.substring(0, andSign - 1);
             System.out.println("snipped name: " + artistFormat);
         }
         int featuring = artistFormat.indexOf("Featuring");
         if (featuring != -1) {
-            artistFormat = artistFormat.substring(0,featuring-1);
+            artistFormat = artistFormat.substring(0, featuring - 1);
             System.out.println("snipped name: " + artistFormat);
         }
         artistFormat.replace(" ", "%20");
@@ -188,28 +188,30 @@ public class Song {
             } else {
                 songNum = songNum - 1;
                 lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
-                if (lyrics == null) {
-                    System.out.println("MY ERROR 2:" + allSongs.get(songNum).getSongName() + " Gave null");
-                    songNum = random.nextInt(49);
-                    lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
-                }
-                if (lyrics == null) {
-                    System.out.println("MY ERROR 3:" + allSongs.get(songNum).getSongName() + " Gave null");
-                    songNum = random.nextInt(49);
-                    lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
-                }
-                if (lyrics == null) {
-                    System.out.println("MY ERROR 4:" + allSongs.get(songNum).getSongName() + " Gave null");
-                    songNum = random.nextInt(49);
-                    lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
-                }
-                if (lyrics == null) {
-                    System.out.println("MY ERROR 5:" + allSongs.get(songNum).getSongName() + " Gave null");
-                    songNum = random.nextInt(49);
-                    lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
-                }
+            }
+
+            if (lyrics == null) {
+                System.out.println("MY ERROR 2:" + allSongs.get(songNum).getSongName() + " Gave null");
+                songNum = random.nextInt(49);
+                lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
+            }
+            if (lyrics == null) {
+                System.out.println("MY ERROR 3:" + allSongs.get(songNum).getSongName() + " Gave null");
+                songNum = random.nextInt(49);
+                lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
+            }
+            if (lyrics == null) {
+                System.out.println("MY ERROR 4:" + allSongs.get(songNum).getSongName() + " Gave null");
+                songNum = random.nextInt(49);
+                lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
+            }
+            if (lyrics == null) {
+                System.out.println("MY ERROR 5:" + allSongs.get(songNum).getSongName() + " Gave null");
+                songNum = random.nextInt(49);
+                lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
             }
         }
+
             lyrics.fillArray();
             System.out.println("SIZE FROM RANDOM LYRICS: " + lyrics.getLyricArray().size());
             lyrics.setSong(Song.allSongs.get(songNum));
