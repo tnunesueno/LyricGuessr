@@ -32,7 +32,7 @@ private Text streakText;
 
  Song song;
  int streak=0;
- int guessNum=0;
+ int guessNum=5;
  Lyric selectedLyric;
 
  @FXML
@@ -48,7 +48,7 @@ public Text guesses;
 
  public void initialize() throws Exception {
      streakText.setText("Streak: "+ streak);
-     guesses.setText("Guesses: "+ guessNum);
+     guesses.setText(guessNum + " guesses remaining");
      beginGame();
  }
 
@@ -93,20 +93,26 @@ if (guess!=null) {
         playAgain.setVisible(true);
         streak = streak + 1;
         streakText.setText("Streak: " + streak);
-        guessNum=guessNum+1;
-        guesses.setText("Guesses: "+ guessNum);
     } else {
         int space = Array.get(selectedLyricNum+1).indexOf(" ");
-        incorrect.setText("HINT: The first word is " + Array.get(selectedLyricNum+1).substring(0,space) + "\n" + " Try again!");
+        if (space!=-1){
+        incorrect.setText("HINT: The first word is " + Array.get(selectedLyricNum+1).substring(0,space) + "\n" + " Try again!");}
+        else{
+            incorrect.setText("HINT: The first word is " + Array.get(selectedLyricNum+1) + "\n" + " Try again!");
+        }
         System.out.println("guess is INCORRECT");
         System.out.println(firstLyric);
         System.out.println(guess);
         input.requestFocus();
         input.setText("");
-        guessNum=guessNum+1;
-        guesses.setText("Guesses: "+ guessNum);
     }
 }
+     guessNum = guessNum-1;
+    guesses.setText(guessNum+ " guesses remaining");
+
+    if (guessNum==0){
+        giveUP();
+    }
  }
 
  public void playAgain() throws Exception {
@@ -117,8 +123,8 @@ if (guess!=null) {
  }
 
  public void beginGame() throws Exception{
-     guessNum=0;
-     guesses.setText("Guesses: "+ guessNum);
+     guessNum=3;
+     guesses.setText(guessNum +" guesses remaining");
      Array.clear();
      playAgain.setVisible(false);
      incorrect.setText("");

@@ -174,12 +174,12 @@ public class Song {
 
     static public Lyric randomLyrics() throws Exception {
         Random random = new Random();
-        int songNum = random.nextInt(49);
+        int songNum = random.nextInt(59);
 
         Lyric lyrics = getLyricsFromSong(allSongs.get(songNum));
         if (lyrics == null) {
             System.out.println("MY ERROR:" + allSongs.get(songNum).getSongName() + " Gave null");
-            if (songNum < 47) {
+            if (songNum < 57) {
                 songNum = songNum + 1;
                 lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
                 if (lyrics == null) {
