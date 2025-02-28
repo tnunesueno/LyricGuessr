@@ -70,10 +70,10 @@ public Text guesses;
      firstLyric=firstLyric.replaceAll("\\(.*?\\)", "").trim();
      firstLyric=firstLyric.replace("&", "and");
      firstLyric=firstLyric.replace(" ","");
+     firstLyric=firstLyric.replace("\"","");
      firstLyric=firstLyric.toLowerCase();
 
 String guess = input.getText();
-
 if (guess!=null) {
 
     guess = guess.replace(" ", "");
@@ -93,6 +93,8 @@ if (guess!=null) {
         playAgain.setVisible(true);
         streak = streak + 1;
         streakText.setText("Streak: " + streak);
+        guessNum = guessNum-1;
+        guesses.setText(guessNum+ " guesses remaining");
     } else {
         int space = Array.get(selectedLyricNum+1).indexOf(" ");
         if (space!=-1){
@@ -105,14 +107,14 @@ if (guess!=null) {
         System.out.println(guess);
         input.requestFocus();
         input.setText("");
+        guessNum = guessNum-1;
+        guesses.setText(guessNum+ " guesses remaining");
+        if (guessNum==0){
+            giveUP();
+        }
     }
 }
-     guessNum = guessNum-1;
-    guesses.setText(guessNum+ " guesses remaining");
 
-    if (guessNum==0){
-        giveUP();
-    }
  }
 
  public void playAgain() throws Exception {
