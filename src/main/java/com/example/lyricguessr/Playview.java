@@ -1,7 +1,5 @@
 package com.example.lyricguessr;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Playview {
@@ -34,6 +33,8 @@ private Text streakText;
  int streak=0;
  int guessNum=5;
  Lyric selectedLyric;
+ String selectedLine;
+ int wordNum=0;
 
  @FXML
 public Text guesses;
@@ -53,25 +54,36 @@ public Text guesses;
  }
 
  public void check(){
-     String firstLyric;
+     String nextLyric;
+     // check that the selected line is not the last line of the song
      if (selectedLyricNum!=Array.size()){
-      firstLyric= Array.get(selectedLyricNum+1);} else{
+      nextLyric = Array.get(selectedLyricNum+1);} else{
         selectedLyricNum = selectedLyricNum - 3;
-         firstLyric=Array.get(selectedLyricNum+1);
+         nextLyric =Array.get(selectedLyricNum+1);
      }
 
+     String[] splitWords = nextLyric.split(" ");
+     ArrayList<String> wordArray = new ArrayList<>();
+     Collections.addAll(wordArray, splitWords);
+
 // get rid of spaces
-     firstLyric=firstLyric.replace(" ", "");
-     firstLyric = firstLyric.replace("'", "").replace("’", "");
-     firstLyric=firstLyric.replace(",", "");
-     firstLyric=firstLyric.replace(".", "");
-     firstLyric=firstLyric.replace("-", "");
-     firstLyric=firstLyric.replace("?","");
-     firstLyric=firstLyric.replaceAll("\\(.*?\\)", "").trim();
-     firstLyric=firstLyric.replace("&", "and");
-     firstLyric=firstLyric.replace(" ","");
-     firstLyric=firstLyric.replace("\"","");
-     firstLyric=firstLyric.toLowerCase();
+     nextLyric = nextLyric.replace(" ", "");
+     nextLyric = nextLyric.replace("'", "").replace("’", "");
+     nextLyric = nextLyric.replace(",", "");
+     nextLyric = nextLyric.replace(".", "");
+     nextLyric = nextLyric.replace("-", "");
+     nextLyric = nextLyric.replace("?","");
+     nextLyric = nextLyric.replaceAll("\\(.*?\\)", "").trim();
+     nextLyric = nextLyric.replace("&", "and");
+     nextLyric = nextLyric.replace(" ","");
+     nextLyric = nextLyric.replace("\"","");
+     nextLyric = nextLyric.toLowerCase();
+     nextLyric = nextLyric.replace("ú","u");
+     nextLyric = nextLyric.replace("ñ","n");
+     nextLyric = nextLyric.replace("é","e");
+     nextLyric = nextLyric.replace("á","a");
+     nextLyric = nextLyric.replace("í","i");
+     nextLyric = nextLyric.replace("ó","o");
 
 String guess = input.getText();
 if (guess!=null) {
@@ -84,9 +96,15 @@ if (guess!=null) {
     guess = guess.replace("?", "");
     guess = guess.replaceAll("\\(.*?\\)", "").trim();
     guess = guess.toLowerCase();
+    guess = guess.replace("ú","u");
+    guess=guess.replace("ñ","n");
+    guess=guess.replace("é","e");
+    guess=guess.replace("á","a");
+    guess=guess.replace("í","i");
+    guess=guess.replace("ó","o");
 
-    if (firstLyric.equalsIgnoreCase(guess) || (guess.contains(firstLyric))) {
-        System.out.println(firstLyric);
+    if (nextLyric.equalsIgnoreCase(guess) || (guess.contains(nextLyric))) {
+        System.out.println(nextLyric);
         System.out.println(guess);
         System.out.println("guess is CORRECT");
         incorrect.setText("Correct!! YAAYYY!!");
@@ -96,14 +114,16 @@ if (guess!=null) {
         guessNum = guessNum-1;
         guesses.setText(guessNum+ " guesses remaining");
     } else {
-        int space = Array.get(selectedLyricNum+1).indexOf(" ");
-        if (space!=-1){
-        incorrect.setText("HINT: The first word is " + Array.get(selectedLyricNum+1).substring(0,space) + "\n" + " Try again!");}
-        else{
-            incorrect.setText("HINT: The first word is " + Array.get(selectedLyricNum+1) + "\n" + " Try again!");
+        if (wordNum==1){
+        incorrect.setText("HINT: The line starts with " + wordArray.get(wordNum-1) + " "+wordArray.get(wordNum)+ "\n" + " Try again!");}
+        // pretty sure it would only be 0 or 1 since u die at 3 guesses aka index 2 - keep this around in case u want more guesses
+        else if (wordNum==2){
+            incorrect.setText("HINT: The line starts with " + wordArray.get(wordNum-2) +" "+wordArray.get(wordNum-1)+ " "+ wordArray.get(wordNum)+ "\n" + " Try again!");
+        } else {
+            incorrect.setText("HINT: The line starts with " + wordArray.get(wordNum) +"\n" + " Try again!");
         }
         System.out.println("guess is INCORRECT");
-        System.out.println(firstLyric);
+        System.out.println(nextLyric);
         System.out.println(guess);
         input.requestFocus();
         input.setText("");
@@ -112,9 +132,9 @@ if (guess!=null) {
         if (guessNum==0){
             giveUP();
         }
+        wordNum=wordNum+1;
     }
 }
-
  }
 
  public void playAgain() throws Exception {
@@ -164,9 +184,13 @@ if (guess!=null) {
 
      incorrect.setText("Next lyric: "+ Array.get(selectedLyricNum+1)+"\n"+ "Song: "+ selectedLyric.getSong().getSongName() + " by " +selectedLyric.getSong().getArtist());
      playAgain.setVisible(true);
+     input.setEditable(false);
  }
 
  public void showSong(){
      lyricText.setText(lyricText.getText()+ "\n"+ "Song: "+selectedLyric.getSong().getSongName() + " by " +selectedLyric.getSong().getArtist());
+     show.setDisable(true);
  }
 }
+
+// GOOGLE API KEY AIzaSyBixnwAc3dICuzHev9klwJgzLn0Vf5VkMQ

@@ -25,4 +25,9 @@
       <font>
          <Font name="Yu Gothic UI Regular" size="20.0" />
       </font></Button>
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="You must be connected to the internet to play.">
+      <font>
+         <Font size="12.0" />
+      </font>
+   </Text>
 </VBox>
