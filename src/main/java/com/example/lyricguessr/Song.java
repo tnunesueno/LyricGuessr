@@ -241,6 +241,7 @@ public class Song {
         String q = song.getSongName().replaceAll(" ","%20")+"%20"+song.getArtist().replaceAll(" ","%20");
         String JSON = getJSONfromURL("https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyBixnwAc3dICuzHev9klwJgzLn0Vf5VkMQ&q="+ q +"&cx=4119d58e961e7488f&searchType=image", false);
         ObjectMapper objectMapper = new ObjectMapper();
+        // for this to work get the link section from the items thing
         URL image = objectMapper.readValue(JSON, URL.class);
         System.out.println(image);
         song.setImageLink(image);
