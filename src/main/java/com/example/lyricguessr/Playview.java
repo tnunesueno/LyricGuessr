@@ -53,7 +53,7 @@ public Text guesses;
      beginGame();
  }
 
- public void check(){
+ public void check() throws Exception {
      String nextLyric;
      // check that the selected line is not the last line of the song
      if (selectedLyricNum!=Array.size()){
@@ -61,6 +61,8 @@ public Text guesses;
         selectedLyricNum = selectedLyricNum - 3;
          nextLyric =Array.get(selectedLyricNum+1);
      }
+     nextLyric = nextLyric.replace(" "," ");
+     nextLyric = nextLyric.replaceAll(" ", " ").trim();
 
      String[] splitWords = nextLyric.split(" ");
      ArrayList<String> wordArray = new ArrayList<>();
@@ -75,7 +77,7 @@ public Text guesses;
      nextLyric = nextLyric.replace("?","");
      nextLyric = nextLyric.replaceAll("\\(.*?\\)", "").trim();
      nextLyric = nextLyric.replace("&", "and");
-     nextLyric = nextLyric.replace(" ","");
+
      nextLyric = nextLyric.replace("\"","");
      nextLyric = nextLyric.toLowerCase();
      nextLyric = nextLyric.replace("ú","u");
@@ -95,6 +97,7 @@ if (guess!=null) {
     guess = guess.replace("-", "");
     guess = guess.replace("?", "");
     guess = guess.replaceAll("\\(.*?\\)", "").trim();
+    guess = guess.replaceAll(" ", "").trim();
     guess = guess.toLowerCase();
     guess = guess.replace("ú","u");
     guess=guess.replace("ñ","n");
@@ -102,6 +105,7 @@ if (guess!=null) {
     guess=guess.replace("á","a");
     guess=guess.replace("í","i");
     guess=guess.replace("ó","o");
+    //r t
 
     if (nextLyric.equalsIgnoreCase(guess) || (guess.contains(nextLyric))) {
         System.out.println(nextLyric);
@@ -145,7 +149,10 @@ if (guess!=null) {
  }
 
  public void beginGame() throws Exception{
+     input.setEditable(true);
+     show.setDisable(false);
      guessNum=3;
+     wordNum=0;
      guesses.setText(guessNum +" guesses remaining");
      Array.clear();
      playAgain.setVisible(false);
@@ -178,13 +185,14 @@ if (guess!=null) {
      playStage.show();
  }
 
- public void giveUP(){
+ public void giveUP() throws Exception {
      streak = 0;
      streakText.setText("Streak: "+ streak);
 
      incorrect.setText("Next lyric: "+ Array.get(selectedLyricNum+1)+"\n"+ "Song: "+ selectedLyric.getSong().getSongName() + " by " +selectedLyric.getSong().getArtist());
      playAgain.setVisible(true);
      input.setEditable(false);
+     Song.getAlbumArt(selectedLyric.getSong());
  }
 
  public void showSong(){

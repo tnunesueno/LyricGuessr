@@ -36,6 +36,9 @@ public class Song {
     @JsonProperty("weeks_on_chart")
     Integer weeksOnChart;
 
+    @JsonProperty
+    URL imageLink;
+
     // public Lyric lyrics;
 
     public String getSongName() {
@@ -92,6 +95,22 @@ public class Song {
 
     public void setLyrics(String lyrics) {
         this.lyrics = lyrics;
+    }
+
+    public static ArrayList<Song> getAllSongs() {
+        return allSongs;
+    }
+
+    public static void setAllSongs(ArrayList<Song> allSongs) {
+        Song.allSongs = allSongs;
+    }
+
+    public URL getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(URL imageLink) {
+        this.imageLink = imageLink;
     }
 
     static String getJSONfromURL(String urlString, boolean configureConnection) throws Exception {
@@ -174,12 +193,12 @@ public class Song {
 
     static public Lyric randomLyrics() throws Exception {
         Random random = new Random();
-        int songNum = random.nextInt(59);
+        int songNum = random.nextInt(39);
 
         Lyric lyrics = getLyricsFromSong(allSongs.get(songNum));
         if (lyrics == null) {
             System.out.println("MY ERROR:" + allSongs.get(songNum).getSongName() + " Gave null");
-            if (songNum < 57) {
+            if (songNum < 37) {
                 songNum = songNum + 1;
                 lyrics = Song.getLyricsFromSong(Song.allSongs.get(songNum));
                 if (lyrics == null) {
@@ -216,6 +235,15 @@ public class Song {
             System.out.println("SIZE FROM RANDOM LYRICS: " + lyrics.getLyricArray().size());
             lyrics.setSong(Song.allSongs.get(songNum));
             return lyrics;
+        }
+   // https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyBixnwAc3dICuzHev9klwJgzLn0Vf5VkMQ&q=too%20sweet%20by%20hozier%20album%20cover&cx=4119d58e961e7488f&searchType=image
+      static public void getAlbumArt(Song song) throws Exception {
+        String q = song.getSongName().replaceAll(" ","%20")+"%20"+song.getArtist().replaceAll(" ","%20");
+        String JSON = getJSONfromURL("https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyBixnwAc3dICuzHev9klwJgzLn0Vf5VkMQ&q="+ q +"&cx=4119d58e961e7488f&searchType=image", false);
+        ObjectMapper objectMapper = new ObjectMapper();
+        URL image = objectMapper.readValue(JSON, URL.class);
+        System.out.println(image);
+        song.setImageLink(image);
         }
     }
     // to do
