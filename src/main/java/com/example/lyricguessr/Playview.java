@@ -128,8 +128,7 @@ if (guess!=null) {
         playAgain.setVisible(true);
         streak = streak + 1;
         streakText.setText("Streak: " + streak);
-        guessNum = guessNum-1;
-        guesses.setText(guessNum+ " guesses remaining");
+        showImage();
     } else {
         if (wordNum==1){
         incorrect.setText("HINT: The line starts with " + wordArray.get(wordNum-1) + " "+wordArray.get(wordNum)+ "\n" + " Try again!");}
@@ -162,6 +161,7 @@ if (guess!=null) {
  }
 
  public void beginGame() throws Exception{
+    // vBox.setSpacing(50);
      input.setEditable(true);
      show.setDisable(false);
      guessNum=3;
@@ -224,7 +224,7 @@ if (guess!=null) {
      stackPane.getChildren().remove(input);
      Image albumArt = new Image(String.valueOf(artURL));
      vBox.setSpacing(20);
-     vBox.setAlignment(Pos.TOP_CENTER);
+     vBox.setAlignment(Pos.CENTER);
      imageView.setImage(albumArt);
      imageView.setFitHeight(150);
      stackPane.setPrefHeight(150);
