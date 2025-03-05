@@ -3,6 +3,8 @@ package com.example.lyricguessr;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -36,7 +38,7 @@ public class Song {
     @JsonProperty("weeks_on_chart")
     Integer weeksOnChart;
 
-    @JsonProperty
+    @JsonProperty("link")
     URL imageLink;
 
     // public Lyric lyrics;
@@ -237,14 +239,21 @@ public class Song {
             return lyrics;
         }
    // https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyBixnwAc3dICuzHev9klwJgzLn0Vf5VkMQ&q=too%20sweet%20by%20hozier%20album%20cover&cx=4119d58e961e7488f&searchType=image
-      static public void getAlbumArt(Song song) throws Exception {
+      static public URL getAlbumArt(Song song) throws Exception {
         String q = song.getSongName().replaceAll(" ","%20")+"%20"+song.getArtist().replaceAll(" ","%20");
         String JSON = getJSONfromURL("https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyBixnwAc3dICuzHev9klwJgzLn0Vf5VkMQ&q="+ q +"&cx=4119d58e961e7488f&searchType=image", false);
         ObjectMapper objectMapper = new ObjectMapper();
         // for this to work get the link section from the items thing
-        URL image = objectMapper.readValue(JSON, URL.class);
-        System.out.println(image);
-        song.setImageLink(image);
+          // Read JSON objects using JsonNode after readTree()
+          JsonNode jsonNode = objectMapper.readTree(JSON);
+          // By reading the JSON tree, the code can now get individual "key":"value" pairs
+          // The value of the "result" key is an ARRAY of JSON objects
+          JsonNode arrayOfItems = jsonNode.get("items");
+          JsonNode firstItem = arrayOfItems.get(0);
+          URL imageURL = new URL(firstItem.get("link").asText());
+          System.out.println(imageURL);
+          song.setImageLink(imageURL);
+          return imageURL;
         }
     }
     // to do

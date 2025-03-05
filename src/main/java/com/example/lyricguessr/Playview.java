@@ -1,14 +1,24 @@
 package com.example.lyricguessr;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -25,6 +35,9 @@ private Text streakText;
 
  @FXML
  private TextField input;
+ public StackPane stackPane;
+ public ImageView imageView;
+ public VBox vBox;
 
  public ArrayList<String> Array = new ArrayList<String>();
  int selectedLyricNum;
@@ -153,6 +166,10 @@ if (guess!=null) {
      show.setDisable(false);
      guessNum=3;
      wordNum=0;
+     stackPane.getChildren().clear();
+     stackPane.getChildren().add(imageView);
+     stackPane.getChildren().add(input);
+     imageView.setImage(null);
      guesses.setText(guessNum +" guesses remaining");
      Array.clear();
      playAgain.setVisible(false);
@@ -193,11 +210,24 @@ if (guess!=null) {
      playAgain.setVisible(true);
      input.setEditable(false);
      Song.getAlbumArt(selectedLyric.getSong());
+     showImage();
  }
 
  public void showSong(){
      lyricText.setText(lyricText.getText()+ "\n"+ "Song: "+selectedLyric.getSong().getSongName() + " by " +selectedLyric.getSong().getArtist());
      show.setDisable(true);
+ }
+
+ public void showImage() throws Exception {
+
+     URL artURL = Song.getAlbumArt(selectedLyric.getSong());
+     stackPane.getChildren().remove(input);
+     Image albumArt = new Image(String.valueOf(artURL));
+     vBox.setSpacing(20);
+     vBox.setAlignment(Pos.TOP_CENTER);
+     imageView.setImage(albumArt);
+     imageView.setFitHeight(150);
+     stackPane.setPrefHeight(150);
  }
 }
 

@@ -43,7 +43,7 @@ public class HelloController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("playview.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 500);
         Stage playStage = (Stage)button.getScene().getWindow();
-        playStage.setTitle("Hello!");
+        playStage.setTitle("LyricGuessr");
         playStage.setScene(scene);
         playStage.show();
     }
