@@ -175,10 +175,13 @@ public class Song {
             artistFormat = artistFormat.substring(0, featuring - 1);
             System.out.println("snipped name: " + artistFormat);
         }
-        artistFormat.replace(" ", "%20");
 
+        artistFormat=artistFormat.replace(" ", "%20");
         String songFormat = song.getSongName().replace(" ", "%20");
-        String JSONLyrics = getJSONfromURL("https://private-anon-2c323ffa75-lyricsovh.apiary-proxy.com/v1/" + artistFormat + "/" + songFormat, true);
+
+
+        String JSONLyrics = getJSONfromURL("https://private-anon-cb9a4ba16c-lyricsovh.apiary-proxy.com/v1/" + artistFormat + "/" + songFormat, true);
+        System.out.println("URL THAT WE ARE TRYING: " + "https://private-anon-cb9a4ba16c-lyricsovh.apiary-proxy.com/v1/" + artistFormat + "/" + songFormat);
         if (JSONLyrics == null) {
             return null;
         }
