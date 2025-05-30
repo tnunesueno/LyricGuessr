@@ -198,9 +198,14 @@ public class Song {
 
     static public Lyric randomLyrics() throws Exception {
         Random random = new Random();
-        int songNum = random.nextInt(39);
+        int songNum = random.nextInt(99);
+        Song chosenSong = allSongs.get(songNum);
+        if(chosenSong.getArtist().equals("Morgan Wallen")){
+            songNum= random.nextInt(99);
+            chosenSong = allSongs.get(songNum);
 
-        Lyric lyrics = getLyricsFromSong(allSongs.get(songNum));
+        }
+        Lyric lyrics = getLyricsFromSong(chosenSong);
         if (lyrics == null) {
             System.out.println("MY ERROR:" + allSongs.get(songNum).getSongName() + " Gave null");
             if (songNum < 37) {
@@ -259,6 +264,4 @@ public class Song {
           return imageURL;
         }
     }
-    // to do
-// latimer idea: allow people to choose genres and time periods
 
