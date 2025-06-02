@@ -200,7 +200,7 @@ public class Song {
         Random random = new Random();
         int songNum = random.nextInt(99);
         Song chosenSong = allSongs.get(songNum);
-        if(chosenSong.getArtist().equals("Morgan Wallen")){
+        if(chosenSong.getArtist().contains("Morgan Wallen")){
             songNum= random.nextInt(99);
             chosenSong = allSongs.get(songNum);
 
