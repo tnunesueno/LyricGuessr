@@ -180,8 +180,8 @@ public class Song {
         String songFormat = song.getSongName().replace(" ", "%20");
 
 
-        String JSONLyrics = getJSONfromURL("https://private-anon-cb9a4ba16c-lyricsovh.apiary-proxy.com/v1/" + artistFormat + "/" + songFormat, true);
-        System.out.println("URL THAT WE ARE TRYING: " + "https://private-anon-cb9a4ba16c-lyricsovh.apiary-proxy.com/v1/" + artistFormat + "/" + songFormat);
+        String JSONLyrics = getJSONfromURL("https://api.lyrics.ovh/v1/" + artistFormat + "/" + songFormat, true);
+        System.out.println("URL THAT WE ARE TRYING: " + "https://api.lyrics.ovh/v1/" + artistFormat + "/" + songFormat);
         if (JSONLyrics == null) {
             return null;
         }
@@ -200,11 +200,7 @@ public class Song {
         Random random = new Random();
         int songNum = random.nextInt(99);
         Song chosenSong = allSongs.get(songNum);
-        if(chosenSong.getArtist().contains("Morgan Wallen")){
-            songNum= random.nextInt(99);
-            chosenSong = allSongs.get(songNum);
 
-        }
         Lyric lyrics = getLyricsFromSong(chosenSong);
         if (lyrics == null) {
             System.out.println("MY ERROR:" + allSongs.get(songNum).getSongName() + " Gave null");
